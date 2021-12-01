@@ -13,7 +13,7 @@ def db_cursor():
                          passwd=DB_PASSWD,
                          db=DB_NAME).cursor()
 
-def get_income():
+def get_all_incomes():
     with db_cursor() as cs:
         cs.execute("""
                 SELECT job, AVG(income_value) as avg_income, country
@@ -29,7 +29,7 @@ def get_income():
         return list_income
 
 
-def get_income_job(job):
+def get_income_by_job(job):
     with db_cursor() as cs:
         cs.execute("""
                     SELECT job, AVG(income_value) AS avg_income
@@ -43,7 +43,7 @@ def get_income_job(job):
         return data
 
 
-def get_income_country(country):
+def get_income_by_country(country):
     with db_cursor() as cs:
         cs.execute("""
                 SELECT country, AVG(income_value) AS avg_income
@@ -57,7 +57,7 @@ def get_income_country(country):
         return data
 
 
-def get_income_country_job(country, job):
+def get_income_by_job_and_country(country, job):
     with db_cursor() as cs:
         cs.execute("""
                 SELECT AVG(income_value) as avg_income

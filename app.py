@@ -35,7 +35,7 @@ def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('income-crypto-api.yml',
-                arguments={'title': 'Cryptical Job'},
+                arguments={'title': 'Cryptical Jobs API'},
                 pythonic_params=True)
 
     app.run(port=8080, debug=True)

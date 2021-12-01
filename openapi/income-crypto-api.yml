@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  title: Cryptical Jobs API
+  description:
+    This API provides information of the average income earned by each jobs, the cryptocurrency
+    owned by each countries, and also the likelihood of owning any cryptocurrency by income amount.
+  version: 1.0.0
+servers:
+  - url: /cryptical-jobs/v1
+paths:
+  /incomes:
+    get:
+      summary: Returns income data of each job for all countries
+      operationId: controller.get_all_incomes
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeAll'
+  /income/jobs/{job}:
+    parameters:
+    - name: job
+      in: path
+      required: true
+      schema:
+        type : string
+    get:
+      summary: Returns income data of a job for all countries
+      operationId: controller.get_income_by_job
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeJob'
+  /income/countries/{country}:
+    parameters:
+    - name: country
+      in: path
+      required: true
+      schema:
+        type : string
+    get:
+      summary: Returns income data of each job for a country
+      operationId: controller.get_income_by_country
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeCountry'
+  /income/{job}/{country}:
+    parameters:
+    - name: job
+      in: path
+      required: true
+      schema:
+        type : string
+    - name: country
+      in: path
+      required: true
+      schema:
+        type : string
+    get:
+      summary: Returns income data of a job for a country
+      operationId: controller.get_income_by_job_and_country
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Income'
+  /income/world:
+    get:
+      summary: Returns average world income data of each job of all countries
+      operationId: controller.get_world_income
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IncomeAll'
+  /crypto_preferred:
+    get:
+      summary: Returns cryptocurrency preference of the survey data.
+      operationId: controller.get_crypto_preferred
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CryptoPreferred'
+  /crypto:
+    get:
+      summary: Returns the list of average amount owned of each cryptocurrency from the survey data.
+      operationId: controller.get_crypto
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Crypto'
+  /crypto/countries:
+    get:
+      summary: Returns the list of average amount owned of each cryptocurrency by each country from the survey data.
+      operationId: controller.get_crypto_country
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CryptoCountry'  
+  /crypto/income:
+    get:
+      summary: Returns the list of average amount owned of each cryptocurrency by each level of income from the survey data.
+      operationId: controller.get_crypto_income
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CryptoIncome'  
+
+
+components:
+  schemas:
+    IncomeAll:
+      type: object
+      properties:
+        job:
+          type: string
+        country:
+          type: string
+        income:
+          type: number
+          description: The income amount in US Dollars
+    IncomeJob:
+      type: object
+      properties:
+        country:
+          type: string
+        income:
+          type: number
+          description: The income amount in US Dollars
+    IncomeCountry:
+      type: object
+      properties:
+        job:
+          type: string
+        income:
+          type: number
+          description: The income amount in US Dollars
+    Income:
+      type: object
+      properties:
+        income:
+          type: number
+          description: The income amount in US Dollars
+    CryptoPreferred:
+      type: object
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+    Crypto:
+      type: object
+      properties:
+        name:
+          type: string
+        amount:
+          type: number
+    CryptoCountry:
+      type: object
+      properties:
+        country:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+    CryptoIncome:
+      type: object
+      properties:
+        country:
+          type: string
+        name:
+          type: string
+        amount:
+          type: number
+    
