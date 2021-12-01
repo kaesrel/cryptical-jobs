@@ -132,7 +132,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CryptoCountry'  
+                  $ref: '#/components/schemas/CryptoCountry'
   /crypto/income:
     get:
       summary: Returns the list of average amount owned of each cryptocurrency by each level of income from the survey data.
@@ -145,7 +145,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CryptoIncome'  
+                  $ref: '#/components/schemas/CryptoIncome'
 
 
 components:
@@ -163,7 +163,7 @@ components:
     IncomeJob:
       type: object
       properties:
-        country:
+        job:
           type: string
         income:
           type: number
@@ -171,7 +171,7 @@ components:
     IncomeCountry:
       type: object
       properties:
-        job:
+        country:
           type: string
         income:
           type: number
@@ -208,10 +208,9 @@ components:
     CryptoIncome:
       type: object
       properties:
-        country:
-          type: string
+        income:
+          type: number
         name:
           type: string
         amount:
           type: number
-    
