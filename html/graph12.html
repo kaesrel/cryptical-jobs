@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Average Monthly Rainfalls</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<body>
+  <div id="chart" style="width:100%;height:75vh;"></div>
+  <script>
+    async function createChart() {
+      var resp = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    cryptoIncome {
+                        name
+                        income
+                        amount
+                  }
+            }`
+        })
+      });
+      var json = await resp.json();
+      var table = json.data;
+      var data = [{
+        y: [table.cryptoIncome[30].amount, table.cryptoIncome[31].amount, table.cryptoIncome[32].amount, table.cryptoIncome[33].amount, table.cryptoIncome[34].amount, table.cryptoIncome[35].amount, table.cryptoIncome[36].amount, table.cryptoIncome[37].amount],
+        x: [table.cryptoIncome[30].income, table.cryptoIncome[31].income, table.cryptoIncome[32].income, table.cryptoIncome[33].income, table.cryptoIncome[34].income, table.cryptoIncome[35].income, table.cryptoIncome[36].income, table.cryptoIncome[37].income],
+        type: 'bar',
+      },
+      ];
+
+      var layout = {
+        title: 'Amount of Tether (USDT) owned by income amount',
+        xaxis: {
+          title: 'Income'
+        },
+        yaxis: {
+          title: 'Amount owned',
+          range: [0,500]
+        }
+      };
+
+      var config = { responsive: true };
+      console.log(table);
+      Plotly.newPlot("chart", data, layout, config);
+    }
+    createChart();
+  </script>
+</body>
+</html>
+

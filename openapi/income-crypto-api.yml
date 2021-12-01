@@ -146,6 +146,19 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CryptoIncome'
+  /world_crypto_population:
+    get:
+      summary: Returns the list of average amount owned of each cryptocurrency by each level of income from the survey data.
+      operationId: controller.get_crypto_world
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CryptoWorld'
 
 
 components:
@@ -213,4 +226,11 @@ components:
         name:
           type: string
         amount:
+          type: number
+    CryptoWorld:
+      type: object
+      properties:
+        country:
+          type: string
+        population:
           type: number

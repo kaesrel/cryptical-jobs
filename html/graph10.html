@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Average Monthly Rainfalls</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<body>
+  <div id="chart" style="width:100%;height:75vh;"></div>
+  <script>
+    async function createChart() {
+      var resp = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    cryptoIncome {
+                        name
+                        income
+                        amount
+                  }
+            }`
+        })
+      });
+      var json = await resp.json();
+      var table = json.data;
+      var data = [{
+        y: [table.cryptoIncome[15].amount, table.cryptoIncome[16].amount, table.cryptoIncome[17].amount, table.cryptoIncome[18].amount, table.cryptoIncome[19].amount, table.cryptoIncome[20].amount, table.cryptoIncome[21].amount, table.cryptoIncome[22].amount],
+        x: [table.cryptoIncome[15].income, table.cryptoIncome[16].income, table.cryptoIncome[17].income, table.cryptoIncome[18].income, table.cryptoIncome[19].income, table.cryptoIncome[20].income, table.cryptoIncome[21].income, table.cryptoIncome[22].income],
+        type: 'bar',
+      },
+      ];
+
+      var layout = {
+        title: 'Amount of Dogecoin (DOGE) owned by income amount',
+        xaxis: {
+          title: 'Income'
+        },
+        yaxis: {
+          title: 'Amount owned',
+          range: [0,500]
+        }
+      };
+
+      var config = { responsive: true };
+      console.log(table);
+      Plotly.newPlot("chart", data, layout, config);
+    }
+    createChart();
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Average Monthly Rainfalls</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<body>
+  <div id="chart" style="width:100%;height:75vh;"></div>
+  <script>
+    async function createChart() {
+      var resp = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    incomeCountry(country:"USA") {
+                      country
+                      income
+                    }
+            }`
+        })
+      });
+      var resp2 = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    incomeCountry(country:"China") {
+                      country
+                      income
+                    }
+            }`
+        })
+      });
+      var resp3 = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    incomeCountry(country:"Europe") {
+                      country
+                      income
+                    }
+            }`
+        })
+      });
+      var resp4 = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    incomeCountry(country:"Thailand") {
+                      country
+                      income
+                    }
+            }`
+        })
+      });
+      var resp5 = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    incomeCountry(country:"Japan") {
+                      country
+                      income
+                    }
+            }`
+        })
+      });
+      var json = await resp.json();
+      var json2 = await resp2.json();
+      var json3 = await resp3.json();
+      var json4 = await resp4.json();
+      var json5 = await resp5.json();
+      var table = json.data;
+      var table2 = json2.data;
+      var table3 = json3.data;
+      var table4 = json4.data;
+      var table5 = json5.data;
+      var data = [{
+        x: [table.incomeCountry[0].country, table2.incomeCountry[0].country, table3.incomeCountry[0].country, table4.incomeCountry[0].country, table4.incomeCountry[0].country],
+        y: [table.incomeCountry[0].income, table2.incomeCountry[0].income, table3.incomeCountry[0].income, table4.incomeCountry[0].income, table5.incomeCountry[0].income],
+        type: 'bar',
+      },
+      ];
+
+      var layout = {
+        title: 'Average income by country',
+        xaxis: {
+          title: 'Country'
+        },
+        yaxis: {
+          title: 'Income',
+          range: [0,500000]
+        }
+      };
+
+      var config = { responsive: true };
+      console.log(table);
+      Plotly.newPlot("chart", data, layout, config);
+    }
+    createChart();
+  </script>
+</body>
+</html>
+

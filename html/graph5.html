@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Average Monthly Rainfalls</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<body>
+  <div id="chart" style="width:100%;height:75vh;"></div>
+  <script>
+    async function createChart() {
+      var resp = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    incomeWorld {
+                      country
+                      job
+                      income
+                    }
+            }`
+        })
+      });
+      var json = await resp.json();
+      var table = json.data;
+
+      var data = [{
+        x: [table.incomeWorld[3].job],
+        y: [table.incomeWorld[3].income],
+        type: 'bar',
+        name: table.incomeWorld[3].job
+      },
+      {
+        x: [table.incomeWorld[8].job],
+        y: [table.incomeWorld[8].income],
+        type: 'bar',
+        name: table.incomeWorld[8].job
+      },
+      {
+        x: [table.incomeWorld[13].job],
+        y: [table.incomeWorld[13].income],
+        type: 'bar',
+        name: table.incomeWorld[13].job
+      },
+      {
+        x: [table.incomeWorld[18].job],
+        y: [table.incomeWorld[18].income],
+        type: 'bar',
+        name: table.incomeWorld[18].job
+      },
+      {
+        x: [table.incomeWorld[23].job],
+        y: [table.incomeWorld[23].income],
+        type: 'bar',
+        name: table.incomeWorld[23].job
+      },
+      {
+        x: [table.incomeWorld[28].job],
+        y: [table.incomeWorld[28].income],
+        type: 'bar',
+        name: table.incomeWorld[28].job
+      },
+      {
+        x: [table.incomeWorld[33].job],
+        y: [table.incomeWorld[33].income],
+        type: 'bar',
+        name: table.incomeWorld[33].job
+      },
+      {
+        x: [table.incomeWorld[38].job],
+        y: [table.incomeWorld[38].income],
+        type: 'bar',
+        name: table.incomeWorld[38].job
+      },
+      {
+        x: [table.incomeWorld[43].job],
+        y: [table.incomeWorld[43].income],
+        type: 'bar',
+        name: table.incomeWorld[43].job
+      },
+      {
+        x: [table.incomeWorld[48].job],
+        y: [table.incomeWorld[48].income],
+        type: 'bar',
+        name: table.incomeWorld[48].job
+      },
+      {
+        x: [table.incomeWorld[53].job],
+        y: [table.incomeWorld[53].income],
+        type: 'bar',
+        name: table.incomeWorld[53].job
+      },
+      {
+        x: [table.incomeWorld[58].job],
+        y: [table.incomeWorld[58].income],
+        type: 'bar',
+        name: table.incomeWorld[58].job
+      },
+      ];
+
+      var layout = {
+        title: 'Average income by job of Japan',
+        xaxis: {
+          title: 'Job'
+        },
+        yaxis: {
+          title: 'Income',
+          range: [0,500000]
+        }
+      };
+
+      var config = { responsive: true };
+      console.log(table);
+      Plotly.newPlot("chart", data, layout, config);
+    }
+    createChart();
+  </script>
+</body>
+</html>

@@ -13,6 +13,7 @@ def db_cursor():
                          passwd=DB_PASSWD,
                          db=DB_NAME).cursor()
 
+
 def get_all_incomes():
     with db_cursor() as cs:
         cs.execute("""
@@ -40,7 +41,9 @@ def get_income_by_job(job):
         result = cs.fetchone()
         job, income = result
         data = {"job": job, "income": income}
-        return data
+        list_income = []
+        list_income.append(data)
+        return list_income
 
 
 def get_income_by_country(country):
@@ -54,7 +57,9 @@ def get_income_by_country(country):
         result = cs.fetchone()
         country, income = result
         data = {"country": country, "income": income}
-        return data
+        list_income = []
+        list_income.append(data)
+        return list_income
 
 
 def get_income_by_job_and_country(country, job):
@@ -70,7 +75,7 @@ def get_income_by_job_and_country(country, job):
         return data
 
 
-def get_income_world():
+def get_world_income():
     with db_cursor() as cs:
         cs.execute("""
                 SELECT job, country, income 
@@ -85,7 +90,7 @@ def get_income_world():
         return list_income
 
 
-def get_prefer_crypto():
+def get_crypto_preferred():
     with db_cursor() as cs:
         cs.execute("""
                 SELECT P.preferred_crypto as crypto_name, COUNT(P.preferred_crypto) AS crypto_count 
@@ -142,11 +147,27 @@ def get_crypto_income():
                 FROM Person_mapped as P, CryptoOwn as CO
                 WHERE P.id = CO.person_id
                 GROUP BY P.income_value, CO.name
+                ORDER BY CO.name, P.income_value
             """)
         result = cs.fetchall()
         list_income = []
         for row in result:
             income, name, amount = row
             data = {"income": income, "name": name, "amount": amount}
+            list_income.append(data)
+        return list_income
+
+
+def get_crypto_world():
+    with db_cursor() as cs:
+        cs.execute("""
+                    SELECT country, population 
+                    FROM CryptoPopulation
+            """)
+        result = cs.fetchall()
+        list_income = []
+        for row in result:
+            country, population = row
+            data = {"country": country, "population": population}
             list_income.append(data)
         return list_income

@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Average Monthly Rainfalls</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<body>
+  <div id="chart" style="width:100%;height:75vh;"></div>
+  <script>
+    async function createChart() {
+      var resp = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            {
+                    cryptoIncome {
+                        name
+                        income
+                        amount
+                  }
+            }`
+        })
+      });
+      var json = await resp.json();
+      var table = json.data;
+      var data = [{
+        y: [table.cryptoIncome[7].amount, table.cryptoIncome[8].amount, table.cryptoIncome[9].amount, table.cryptoIncome[10].amount, table.cryptoIncome[11].amount, table.cryptoIncome[12].amount, table.cryptoIncome[13].amount, table.cryptoIncome[14].amount],
+        x: [table.cryptoIncome[7].income, table.cryptoIncome[8].income, table.cryptoIncome[9].income, table.cryptoIncome[10].income, table.cryptoIncome[11].income, table.cryptoIncome[12].income, table.cryptoIncome[13].income, table.cryptoIncome[14].income],
+        type: 'bar',
+      },
+      ];
+
+      var layout = {
+        title: 'Amount of Bitcoins (BTC) owned by income amount',
+        xaxis: {
+          title: 'Income'
+        },
+        yaxis: {
+          title: 'Amount owned',
+          range: [0,500]
+        }
+      };
+
+      var config = { responsive: true };
+      console.log(table);
+      Plotly.newPlot("chart", data, layout, config);
+    }
+    createChart();
+  </script>
+</body>
+</html>
