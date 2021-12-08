@@ -6,14 +6,8 @@ import random
 NUMBER_OF_PEOPLE = 1000
 
 
-# PERSON_FORMAT.format(id=1, country="Thailand", job="cunt", income="10k",
-#         comfort_income="500k", preferred_crypto="shit coin", end=";")
-
-
 file_person = open("data.sql", 'w')
-# file_person = open("data.sql", 'w')
 
-# print(len(), len(income_ranges))
 
 country = random.choices(countries, weights=country_wgts, k=NUMBER_OF_PEOPLE)
 job = random.choices(list(dict_jobs), weights=job_wgts, k=NUMBER_OF_PEOPLE)
@@ -51,9 +45,7 @@ for i in range(0,NUMBER_OF_PEOPLE):
     while len(crypt_set) < num_own:
         crypt_ran = random.choices(cryptocurrencies, weights=crypto_own_wgts)[0]
         crypt_set.add(crypt_ran)
-
-    # print(id, country[i], job[i], income, comfort_income, num_own, crypt_set)
-
+        
 
     # person_id, name, amount
     for c in crypt_set:
@@ -73,5 +65,3 @@ for i in range(len(crypt_out)):
     file_person.write(line)
 
 
-    # print(random.choices(countries,weights = country_wgts))
-    # print(random.choices(cryptocurrencies, weights = crypto_prefer_wgts))
